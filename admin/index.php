@@ -106,31 +106,31 @@ $userRole = $_SESSION['role'] ?? 'admin';
         <?php
         switch ($page) {
             case 'dashboard':
-                include 'pages/dashboard.php';
+                include 'articles.php';
                 break;
             case 'articles':
-                include 'pages/articles.php';
+                include 'articles.php';
                 break;
             case 'article-edit':
-                include 'pages/article-edit.php';
+                include 'article-edit.php';
                 break;
             case 'categories':
-                include 'pages/categories.php';
+                include 'categories.php';
                 break;
             case 'media':
-                include 'pages/media.php';
+                include 'media.php';
                 break;
             case 'comments':
-                include 'pages/comments.php';
+                include 'comments.php';
                 break;
             case 'users':
-                include 'pages/users.php';
+                include 'users.php';
                 break;
             case 'settings':
-                include 'pages/settings.php';
+                include 'settings.php';
                 break;
             default:
-                include 'pages/dashboard.php';
+                include 'articles.php';
         }
         ?>
     </main>
