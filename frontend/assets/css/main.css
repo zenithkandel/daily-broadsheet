@@ -858,3 +858,161 @@ a:hover {
     font-size: 1rem;
     line-height: 1.4;
 }
+
+/* ========================================
+   Animations & Transitions
+   ======================================== */
+
+:root {
+    --animation-duration: 0.6s;
+    --animation-easing: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity var(--animation-duration) ease, transform var(--animation-duration) var(--animation-easing);
+}
+
+.animate-on-scroll.reveal {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.article-card {
+    animation: fadeInUp 0.6s var(--animation-easing) both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-section {
+    animation: fadeIn 0.8s ease both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.stat-card {
+    animation: scaleIn 0.5s var(--animation-easing) both;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.content-card {
+    animation: slideInLeft 0.6s var(--animation-easing) both;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Hover effects */
+.article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.article-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.card-image img {
+    transition: transform 0.4s var(--animation-easing);
+}
+
+/* Link hover animation */
+.nav-list a {
+    position: relative;
+}
+
+.nav-list a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s var(--animation-easing);
+}
+
+.nav-list a:hover::after {
+    width: 100%;
+}
+
+/* Button hover */
+.btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+/* Skeleton loading for images */
+.img-loading {
+    background: linear-gradient(90deg, var(--paper-dark) 25%, var(--paper) 50%, var(--paper-dark) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .animate-on-scroll,
+    .article-card,
+    .hero-section,
+    .stat-card,
+    .content-card,
+    .card-image img,
+    .nav-list a::after,
+    .btn-primary::before {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+}

@@ -132,6 +132,7 @@ $today = date('F j, Y');
     </div>
     
     <script src="/codes/daily-broadsheet/frontend/assets/js/main.js"></script>
+    <script src="/codes/daily-broadsheet/frontend/assets/js/animations.js"></script>
 </body>
 </html>
 
