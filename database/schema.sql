@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS articles (
     category_id INT NOT NULL,
     status ENUM('draft', 'published', 'scheduled', 'archived') DEFAULT 'draft',
     featured BOOLEAN DEFAULT FALSE,
+    breaking BOOLEAN DEFAULT FALSE,
     view_count INT DEFAULT 0,
     featured_image VARCHAR(255),
     video_url VARCHAR(500),
