@@ -13,6 +13,7 @@ $article = [
     'category_id' => 1,
     'status' => 'draft',
     'featured' => 0,
+    'breaking' => 0,
     'featured_image' => '',
     'video_url' => '',
     'audio_url' => '',
@@ -52,6 +53,7 @@ try {
             'category_id' => $_POST['category_id'],
             'status' => $_POST['status'],
             'featured' => isset($_POST['featured']) ? 1 : 0,
+            'breaking' => isset($_POST['breaking']) ? 1 : 0,
             'featured_image' => $_POST['featured_image'] ?? '',
             'video_url' => $_POST['video_url'] ?? '',
             'audio_url' => $_POST['audio_url'] ?? '',
@@ -60,19 +62,19 @@ try {
         ];
         
         if ($articleId === 'new') {
-            $stmt = $pdo->prepare("INSERT INTO articles (slug, author_id, category_id, status, featured, featured_image, video_url, audio_url, scheduled_at, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO articles (slug, author_id, category_id, status, featured, breaking, featured_image, video_url, audio_url, scheduled_at, published_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([
                 $articleData['slug'], $articleData['author_id'], $articleData['category_id'],
-                $articleData['status'], $articleData['featured'], $articleData['featured_image'],
+                $articleData['status'], $articleData['featured'], $articleData['breaking'], $articleData['featured_image'],
                 $articleData['video_url'], $articleData['audio_url'], $articleData['scheduled_at'],
                 $articleData['published_at']
             ]);
             $articleId = $pdo->lastInsertId();
         } else {
-            $stmt = $pdo->prepare("UPDATE articles SET slug=?, author_id=?, category_id=?, status=?, featured=?, featured_image=?, video_url=?, audio_url=?, scheduled_at=?, published_at=? WHERE id=?");
+            $stmt = $pdo->prepare("UPDATE articles SET slug=?, author_id=?, category_id=?, status=?, featured=?, breaking=?, featured_image=?, video_url=?, audio_url=?, scheduled_at=?, published_at=? WHERE id=?");
             $stmt->execute([
                 $articleData['slug'], $articleData['author_id'], $articleData['category_id'],
-                $articleData['status'], $articleData['featured'], $articleData['featured_image'],
+                $articleData['status'], $articleData['featured'], $articleData['breaking'], $articleData['featured_image'],
                 $articleData['video_url'], $articleData['audio_url'], $articleData['scheduled_at'],
                 $articleData['published_at'], $articleId
             ]);
@@ -378,6 +380,11 @@ $pageTitle = $articleId === 'new' ? 'New Article' : 'Edit Article';
                     <div class="checkbox-row">
                         <input type="checkbox" name="featured" id="featured" <?= $article['featured'] ? 'checked' : '' ?>>
                         <label for="featured">Featured Article</label>
+                    </div>
+                    
+                    <div class="checkbox-row">
+                        <input type="checkbox" name="breaking" id="breaking" <?= $article['breaking'] ? 'checked' : '' ?>>
+                        <label for="breaking">Breaking News</label>
                     </div>
                 </div>
                 
