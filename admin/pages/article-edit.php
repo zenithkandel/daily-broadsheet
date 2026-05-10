@@ -13,6 +13,7 @@ $article = [
     'category_id' => 1,
     'status' => 'draft',
     'featured' => 0,
+    'breaking' => 0,
     'featured_image' => '',
     'video_url' => '',
     'audio_url' => '',
