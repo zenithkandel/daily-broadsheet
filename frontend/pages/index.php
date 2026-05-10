@@ -8,7 +8,8 @@ try {
     $pdo = db();
     
     $featuredArticle = $pdo->prepare("
-        SELECT a.*, ac.title, ac.excerpt, ac.body 
+        SELECT a.id, a.featured_image, a.category_id, a.published_at, a.view_count,
+               ac.title, ac.excerpt, ac.body 
         FROM articles a 
         JOIN article_content ac ON a.id = ac.article_id 
         WHERE a.status = 'published' AND a.featured = 1 AND ac.lang = ?
