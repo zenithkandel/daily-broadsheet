@@ -47,7 +47,7 @@ try {
                     <?php foreach ($results as $article): ?>
                     <article class="article-card">
                         <div class="card-image">
-                            <img src="<?= $article['featured_image'] ?? '../assets/images/placeholder.jpg' ?>" alt="">
+                            <img src="<?= $article['featured_image'] ?? '/codes/daily-broadsheet/frontend/assets/images/placeholder.jpg' ?>" alt="">
                         </div>
                         <div class="card-content">
                             <h3><a href="index.php?page=article&id=<?= $article['id'] ?>"><?= htmlspecialchars($article['title']) ?></a></h3>

@@ -63,7 +63,7 @@ $readingTime = ceil(strlen($article['body']) / 1000);
     <meta property="og:image" content="<?= $article['featured_image'] ?? '' ?>">
     <meta property="og:type" content="article">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="/codes/daily-broadsheet/frontend/assets/css/main.css">
     <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
     <style>
         .article-page {
@@ -228,7 +228,7 @@ $readingTime = ceil(strlen($article['body']) / 1000);
                         <?php foreach ($related as $item): ?>
                         <div class="related-item">
                             <a href="index.php?page=article&id=<?= $item['id'] ?>">
-                                <img src="<?= $item['featured_image'] ?? '../assets/images/placeholder.jpg' ?>" alt="">
+                                <img src="<?= $item['featured_image'] ?? '/codes/daily-broadsheet/frontend/assets/images/placeholder.jpg' ?>" alt="">
                                 <h4><?= htmlspecialchars($item['title']) ?></h4>
                             </a>
                         </div>
