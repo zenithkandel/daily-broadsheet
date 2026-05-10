@@ -120,3 +120,24 @@ function getBreakingNews(string $lang = 'en'): array {
         return [];
     }
 }
+
+function adsEnabled(): bool {
+    try {
+        $pdo = db();
+        $stmt = $pdo->query("SELECT setting_value FROM site_settings WHERE setting_key = 'show_ads'");
+        $result = $stmt->fetch();
+        return $result ? $result['setting_value'] === '1' : true;
+    } catch (Exception $e) {
+        return true;
+    }
+}
+
+function getAdSettings(): array {
+    try {
+        $pdo = db();
+        $stmt = $pdo->query("SELECT setting_key, setting_value FROM site_settings WHERE setting_key LIKE 'adsense_%'");
+        return $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+    } catch (Exception $e) {
+        return [];
+    }
+}

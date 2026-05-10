@@ -26,6 +26,7 @@ $defaults = [
     'site_tagline' => 'A nod to classic print newspapers reimagined for the web',
     'site_email' => 'editor@dailybroadsheet.com',
     'default_language' => 'en',
+    'show_ads' => '1',
     'adsense_client_id' => '',
     'adsense_ad_slot_728x90' => '',
     'adsense_ad_slot_300x250' => '',
@@ -83,6 +84,14 @@ $settings = array_merge($defaults, $settings);
                 <h2>AdSense Settings</h2>
             </div>
             <div class="card-body">
+                <div class="form-row toggle-row">
+                    <label>Show Ads</label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" name="show_ads" id="show_ads" value="1" <?= ($settings['show_ads'] ?? '1') === '1' ? 'checked' : '' ?>>
+                        <label for="show_ads" class="toggle-label"></label>
+                    </div>
+                </div>
+                
                 <div class="form-row">
                     <label>AdSense Client ID (ca-pub-...)</label>
                     <input type="text" name="adsense_client_id" value="<?= htmlspecialchars($settings['adsense_client_id']) ?>" placeholder="ca-pub-xxxxxxxxxxxxxxxx">
@@ -163,5 +172,53 @@ $settings = array_merge($defaults, $settings);
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 4px;
+}
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--rule);
+}
+.toggle-row label {
+    margin-bottom: 0;
+}
+.toggle-switch {
+    position: relative;
+    width: 52px;
+    height: 28px;
+}
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle-label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--ink-faded);
+    border-radius: 28px;
+    transition: 0.3s;
+}
+.toggle-label:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+.toggle-switch input:checked + .toggle-label {
+    background: var(--accent);
+}
+.toggle-switch input:checked + .toggle-label:before {
+    transform: translateX(24px);
 }
 </style>

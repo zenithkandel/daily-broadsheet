@@ -84,13 +84,21 @@ $today = date('F j, Y');
             </section>
             <?php endif; ?>
             
-            <!-- AdSense Leaderboard Placeholder -->
+            <?php if (adsEnabled()): ?>
             <div class="ad-container">
-                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="728x90" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <?php $adSettings = getAdSettings(); ?>
+                <?php if (!empty($adSettings['adsense_client_id']) && !empty($adSettings['adsense_ad_slot_728x90'])): ?>
+                <ins class="adsbygoogle" style="display:block" data-ad-client="<?= htmlspecialchars($adSettings['adsense_client_id']) ?>" data-ad-slot="<?= htmlspecialchars($adSettings['adsense_ad_slot_728x90']) ?>" data-ad-format="auto" data-full-width-responsive="true"></ins>
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
+                <?php else: ?>
+                <div class="ad-placeholder">
+                    <span>Advertisement</span>
+                </div>
+                <?php endif; ?>
             </div>
+            <?php endif; ?>
             
             <div class="content-grid">
                 <aside class="sidebar-left">
