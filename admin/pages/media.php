@@ -77,6 +77,8 @@ try {
 } catch (Exception $e) {
     $media = [];
 }
+
+$typeFilter = $_GET['type'] ?? 'all';
 ?>
 <header class="main-header">
     <h1>Media Library</h1>
@@ -110,13 +112,13 @@ try {
     <?php foreach ($media as $item): ?>
     <div class="media-item" style="border: 1px solid var(--rule); padding: 0.5rem; background: #fff;">
         <?php if ($item['type'] === 'image'): ?>
-        <img src="../../uploads/<?= $item['filename'] ?>" style="width: 100%; height: 120px; object-fit: cover;">
+        <img src="/codes/daily-broadsheet/uploads/<?= $item['filename'] ?>" style="width: 100%; height: 120px; object-fit: cover;">
         <?php elseif ($item['type'] === 'video'): ?>
-        <div style="width: 100%; height: 120px; background: var(--dark-overlay); display: flex; align-items: center; justify-content: center; color: #fff;">VIDEO</div>
+        <div style="width: 100%; height: 120px; background: var(--dark-overlay); display: flex; align-items: center; justify-content: center; color: #fff;"><i class="fa-duotone fa-video"></i></div>
         <?php elseif ($item['type'] === 'audio'): ?>
-        <div style="width: 100%; height: 120px; background: var(--paper-dark); display: flex; align-items: center; justify-content: center; color: var(--ink-light);">AUDIO</div>
+        <div style="width: 100%; height: 120px; background: var(--paper-dark); display: flex; align-items: center; justify-content: center; color: var(--ink-light);"><i class="fa-duotone fa-music"></i></div>
         <?php else: ?>
-        <div style="width: 100%; height: 120px; background: var(--paper-dark); display: flex; align-items: center; justify-content: center; color: var(--ink-light);">DOC</div>
+        <div style="width: 100%; height: 120px; background: var(--paper-dark); display: flex; align-items: center; justify-content: center; color: var(--ink-light);"><i class="fa-duotone fa-file-lines"></i></div>
         <?php endif; ?>
         <div style="margin-top: 0.5rem; font-size: 0.75rem; word-break: break-all;">
             <?= htmlspecialchars(basename($item['filename'])) ?>
