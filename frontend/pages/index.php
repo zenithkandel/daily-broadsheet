@@ -57,7 +57,7 @@ $today = date('F j, Y');
     <title><?= $siteName ?> - <?= $today ?></title>
     <meta name="description" content="A nod to classic print newspapers reimagined for the web">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="/codes/daily-broadsheet/frontend/assets/css/main.css">
     <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
 </head>
 <body class="home-page">
@@ -131,7 +131,7 @@ $today = date('F j, Y');
         <?php include __DIR__ . '/../components/footer.php'; ?>
     </div>
     
-    <script src="../assets/js/main.js"></script>
+    <script src="/codes/daily-broadsheet/frontend/assets/js/main.js"></script>
 </body>
 </html>
 

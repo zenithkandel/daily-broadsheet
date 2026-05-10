@@ -43,7 +43,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($catName) ?> - The Daily Broadsheet</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="/codes/daily-broadsheet/frontend/assets/css/main.css">
     <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
 </head>
 <body class="home-page">
@@ -82,6 +82,6 @@ try {
         
         <?php include __DIR__ . '/../components/footer.php'; ?>
     </div>
-    <script src="../assets/js/main.js"></script>
+    <script src="/codes/daily-broadsheet/frontend/assets/js/main.js"></script>
 </body>
 </html>

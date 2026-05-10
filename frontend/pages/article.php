@@ -242,6 +242,6 @@ $readingTime = ceil(strlen($article['body']) / 1000);
         <?php include __DIR__ . '/../components/footer.php'; ?>
     </div>
     
-    <script src="../assets/js/main.js"></script>
+    <script src="/codes/daily-broadsheet/frontend/assets/js/main.js"></script>
 </body>
 </html>
