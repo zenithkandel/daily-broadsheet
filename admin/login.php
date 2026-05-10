@@ -42,45 +42,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title><?= $pageTitle ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
+    <link rel="stylesheet" href="assets/css/admin.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         :root {
-            --paper: #F5F0E8;
-            --paper-dark: #EDE8DF;
-            --ink: #1A1A1A;
-            --ink-light: #4A4A4A;
-            --accent: #C84B31;
-            --accent-dark: #9A3623;
-            --rule: #D4CFC7;
+            --login-accent: #A63F35;
+            --login-accent-dark: #7D3028;
+            --login-paper: #F5F0E8;
+            --login-ink: #1A1A1A;
+            --login-ink-light: #4A4A4A;
+            --login-rule: #D4CFC7;
         }
         
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--paper);
+        body.login-page {
+            background: var(--login-paper);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
         }
-        
+
         .login-container {
             background: #fff;
             padding: 3rem;
             width: 100%;
             max-width: 420px;
-            box-shadow: 
-                0 4px 6px rgba(0,0,0,0.05),
-                0 10px 20px rgba(0,0,0,0.08);
-            border: 1px solid var(--rule);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 10px 20px rgba(0,0,0,0.08);
+            border: 1px solid var(--login-rule);
             position: relative;
         }
-        
+
         .login-container::before {
             content: '';
             position: absolute;
@@ -88,59 +79,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             left: 0;
             right: 0;
             height: 6px;
-            background: var(--accent);
+            background: var(--login-accent);
         }
-        
+
         .login-header {
             text-align: center;
             margin-bottom: 2rem;
         }
-        
+
         .login-header h1 {
             font-family: 'Playfair Display', serif;
             font-size: 1.75rem;
-            color: var(--ink);
+            color: var(--login-ink);
             letter-spacing: -0.5px;
             margin-bottom: 0.5rem;
         }
-        
+
         .login-header p {
-            color: var(--ink-light);
+            color: var(--login-ink-light);
             font-size: 0.9rem;
         }
-        
-        .form-group {
+
+        .login-form .form-group {
             margin-bottom: 1.25rem;
         }
-        
-        .form-group label {
+
+        .login-form label {
             display: block;
             font-size: 0.85rem;
             font-weight: 500;
-            color: var(--ink-light);
+            color: var(--login-ink-light);
             margin-bottom: 0.5rem;
         }
-        
-        .form-group input {
+
+        .login-form input {
             width: 100%;
             padding: 0.875rem 1rem;
-            border: 1px solid var(--rule);
+            border: 1px solid var(--login-rule);
             font-size: 1rem;
             font-family: 'DM Sans', sans-serif;
-            background: var(--paper);
+            background: var(--login-paper);
             transition: border-color 0.2s, box-shadow 0.2s;
+            box-sizing: border-box;
         }
-        
-        .form-group input:focus {
+
+        .login-form input:focus {
             outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(200, 75, 49, 0.1);
+            border-color: var(--login-accent);
+            box-shadow: 0 0 0 3px rgba(166, 63, 53, 0.1);
         }
-        
+
         .btn-login {
             width: 100%;
             padding: 1rem;
-            background: var(--accent);
+            background: var(--login-accent);
             color: #fff;
             border: none;
             font-size: 1rem;
@@ -149,38 +141,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             cursor: pointer;
             transition: background 0.2s;
             margin-top: 0.5rem;
+            border-radius: 4px;
         }
-        
+
         .btn-login:hover {
-            background: var(--accent-dark);
+            background: var(--login-accent-dark);
         }
-        
+
         .error-message {
-            background: #fee;
-            border: 1px solid #fcc;
-            color: #c33;
+            background: #FFEBEE;
+            border: 1px solid #FFCDD2;
+            color: #C62828;
             padding: 0.75rem 1rem;
             margin-bottom: 1.5rem;
             font-size: 0.9rem;
+            border-radius: 4px;
         }
-        
+
         .back-link {
             text-align: center;
             margin-top: 1.5rem;
             font-size: 0.9rem;
         }
-        
+
         .back-link a {
-            color: var(--ink-light);
+            color: var(--login-ink-light);
             text-decoration: none;
         }
-        
+
         .back-link a:hover {
-            color: var(--accent);
+            color: var(--login-accent);
         }
     </style>
 </head>
-<body>
+<body class="login-page">
     <div class="login-container">
         <div class="login-header">
             <h1>The Daily Broadsheet</h1>
@@ -195,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
         
-        <form method="POST" action="">
+        <form method="POST" action="" class="login-form">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" value="<?= htmlspecialchars($email ?? '') ?>" required>
