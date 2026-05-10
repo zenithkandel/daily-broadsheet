@@ -69,28 +69,28 @@ $userRole = $_SESSION['role'] ?? 'admin';
         
         <nav class="sidebar-nav">
             <a href="index.php?page=dashboard" class="nav-item <?= $page === 'dashboard' ? 'active' : '' ?>">
-                <i class="fa-duotone fa-grid-2"></i> Dashboard
+                <i class="fa-duotone fa-grid-2"></i>&nbsp;Dashboard
             </a>
             <a href="index.php?page=articles" class="nav-item <?= $page === 'articles' || $page === 'article-edit' ? 'active' : '' ?>">
-                <i class="fa-duotone fa-newspaper"></i> Articles
+                <i class="fa-duotone fa-newspaper"></i>&nbsp;Articles
             </a>
             <a href="index.php?page=categories" class="nav-item <?= $page === 'categories' ? 'active' : '' ?>">
-                <i class="fa-duotone fa-folders"></i> Categories
+                <i class="fa-duotone fa-folders"></i>&nbsp;Categories
             </a>
             <a href="index.php?page=media" class="nav-item <?= $page === 'media' ? 'active' : '' ?>">
-                <i class="fa-duotone fa-images"></i> Media
+                <i class="fa-duotone fa-images"></i>&nbsp;Media
             </a>
             <a href="index.php?page=comments" class="nav-item <?= $page === 'comments' ? 'active' : '' ?>">
-                <i class="fa-duotone fa-comments"></i> Comments
+                <i class="fa-duotone fa-comments"></i>&nbsp;Comments
                 <?php if ($stats['comments_pending'] > 0): ?>
                     <span class="badge"><?= $stats['comments_pending'] ?></span>
                 <?php endif; ?>
             </a>
             <a href="index.php?page=users" class="nav-item <?= $page === 'users' ? 'active' : '' ?>">
-                <i class="fa-duotone fa-users"></i> Users
+                <i class="fa-duotone fa-users"></i>&nbsp;Users
             </a>
             <a href="index.php?page=settings" class="nav-item <?= $page === 'settings' ? 'active' : '' ?>">
-                <i class="fa-duotone fa-gear"></i> Settings
+                <i class="fa-duotone fa-gear"></i>&nbsp;Settings
             </a>
         </nav>
         

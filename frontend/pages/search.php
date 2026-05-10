@@ -1,6 +1,6 @@
 <?php
-require_once '../../includes/functions.php';
-require_once '../../backend/config/database.php';
+require_once __DIR__ . '/../../includes/functions.php';
+require_once __DIR__ . '/../../backend/config/database.php';
 
 $lang = $_SESSION['lang'] ?? 'en';
 $query = $_GET['q'] ?? '';
