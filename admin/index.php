@@ -4,12 +4,13 @@ requireLogin();
 
 $page = $_GET['page'] ?? 'dashboard';
 
-$stats = [
-    'total_articles' => 0,
-    'published' => 0,
-    'drafts' => 0,
-    'comments_pending' => 0
-];
+$allowedPages = ['dashboard', 'articles', 'article-edit', 'categories', 'media', 'comments', 'users', 'settings'];
+
+if (!in_array($page, $allowedPages)) {
+    $page = 'dashboard';
+}
+
+$stats = ['total_articles' => 0, 'published' => 0, 'drafts' => 0, 'comments_pending' => 0];
 
 try {
     $pdo = db();
@@ -54,7 +55,7 @@ $userRole = $_SESSION['role'] ?? 'admin';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - The Daily Broadsheet Admin</title>
+    <title>Admin - The Daily Broadsheet</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/admin.css">
 </head>
@@ -66,28 +67,28 @@ $userRole = $_SESSION['role'] ?? 'admin';
         </div>
         
         <nav class="sidebar-nav">
-            <a href="index.php?page=dashboard" class="nav-item active">
+            <a href="index.php?page=dashboard" class="nav-item <?= $page === 'dashboard' ? 'active' : '' ?>">
                 <span class="icon">&#9632;</span> Dashboard
             </a>
-            <a href="index.php?page=articles" class="nav-item">
+            <a href="index.php?page=articles" class="nav-item <?= $page === 'articles' || $page === 'article-edit' ? 'active' : '' ?>">
                 <span class="icon">&#9776;</span> Articles
             </a>
-            <a href="index.php?page=categories" class="nav-item">
+            <a href="index.php?page=categories" class="nav-item <?= $page === 'categories' ? 'active' : '' ?>">
                 <span class="icon">&#963;</span> Categories
             </a>
-            <a href="index.php?page=media" class="nav-item">
+            <a href="index.php?page=media" class="nav-item <?= $page === 'media' ? 'active' : '' ?>">
                 <span class="icon">&#9741;</span> Media
             </a>
-            <a href="index.php?page=comments" class="nav-item">
+            <a href="index.php?page=comments" class="nav-item <?= $page === 'comments' ? 'active' : '' ?>">
                 <span class="icon">&#9827;</span> Comments
                 <?php if ($stats['comments_pending'] > 0): ?>
                     <span class="badge"><?= $stats['comments_pending'] ?></span>
                 <?php endif; ?>
             </a>
-            <a href="index.php?page=users" class="nav-item">
+            <a href="index.php?page=users" class="nav-item <?= $page === 'users' ? 'active' : '' ?>">
                 <span class="icon">&#9829;</span> Users
             </a>
-            <a href="index.php?page=settings" class="nav-item">
+            <a href="index.php?page=settings" class="nav-item <?= $page === 'settings' ? 'active' : '' ?>">
                 <span class="icon">&#9881;</span> Settings
             </a>
         </nav>
@@ -102,86 +103,36 @@ $userRole = $_SESSION['role'] ?? 'admin';
     </aside>
     
     <main class="main-content">
-        <header class="main-header">
-            <h1>Dashboard</h1>
-            <div class="header-actions">
-                <a href="index.php?page=article-edit&id=new" class="btn btn-primary">+ New Article</a>
-            </div>
-        </header>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value"><?= $stats['total_articles'] ?></div>
-                <div class="stat-label">Total Articles</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value"><?= $stats['published'] ?></div>
-                <div class="stat-label">Published</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value"><?= $stats['drafts'] ?></div>
-                <div class="stat-label">Drafts</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value"><?= $stats['comments_pending'] ?></div>
-                <div class="stat-label">Pending Comments</div>
-            </div>
-        </div>
-        
-        <div class="content-grid">
-            <section class="content-card">
-                <div class="card-header">
-                    <h2>Recent Articles</h2>
-                    <a href="index.php?page=articles" class="card-link">View All</a>
-                </div>
-                <div class="card-body">
-                    <?php if (empty($recentArticles)): ?>
-                        <p class="empty-state">No articles yet. <a href="index.php?page=article-edit&id=new">Create your first article</a></p>
-                    <?php else: ?>
-                        <ul class="item-list">
-                            <?php foreach ($recentArticles as $article): ?>
-                                <li class="item">
-                                    <a href="index.php?page=article-edit&id=<?= $article['id'] ?>" class="item-title">
-                                        <?= htmlspecialchars($article['title'] ?? 'Untitled') ?>
-                                    </a>
-                                    <span class="item-meta">
-                                        <span class="status status-<?= $article['status'] ?>"><?= $article['status'] ?></span>
-                                        <span class="date"><?= timeAgo($article['created_at']) ?></span>
-                                    </span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?>
-                </div>
-            </section>
-            
-            <section class="content-card">
-                <div class="card-header">
-                    <h2>Recent Comments</h2>
-                    <a href="index.php?page=comments" class="card-link">View All</a>
-                </div>
-                <div class="card-body">
-                    <?php if (empty($recentComments)): ?>
-                        <p class="empty-state">No comments yet.</p>
-                    <?php else: ?>
-                        <ul class="item-list">
-                            <?php foreach ($recentComments as $comment): ?>
-                                <li class="item">
-                                    <div class="comment-content">
-                                        <span class="comment-author"><?= htmlspecialchars($comment['user_name'] ?? 'Anonymous') ?></span>
-                                        <span class="comment-text"><?= htmlspecialchars(mb_strimwidth($comment['content'], 0, 50, '...')) ?></span>
-                                    </div>
-                                    <span class="item-meta">
-                                        <span class="status status-<?= $comment['status'] ?>"><?= $comment['status'] ?></span>
-                                        <span class="date"><?= timeAgo($comment['created_at']) ?></span>
-                                    </span>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?>
-                </div>
-            </section>
-        </div>
+        <?php
+        switch ($page) {
+            case 'dashboard':
+                include 'pages/dashboard.php';
+                break;
+            case 'articles':
+                include 'pages/articles.php';
+                break;
+            case 'article-edit':
+                include 'pages/article-edit.php';
+                break;
+            case 'categories':
+                include 'pages/categories.php';
+                break;
+            case 'media':
+                include 'pages/media.php';
+                break;
+            case 'comments':
+                include 'pages/comments.php';
+                break;
+            case 'users':
+                include 'pages/users.php';
+                break;
+            case 'settings':
+                include 'pages/settings.php';
+                break;
+            default:
+                include 'pages/dashboard.php';
+        }
+        ?>
     </main>
 </body>
 </html>
