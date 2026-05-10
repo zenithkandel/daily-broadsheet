@@ -233,3 +233,75 @@ ul { list-style: none; }
     .content-wrapper { grid-template-columns: 1fr; }
     .sidebar-left::before { display: none; }
 }
+
+/* Header */
+.site-header {
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.header-top { display: none; }
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+.nav-list { display: flex; gap: 2.5rem; }
+.nav-list a {
+    font-family: \'DM Sans\', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+.nav-search form { display: flex; align-items: center; border-bottom: 1px solid var(--ink); }
+.nav-search input { background: transparent; border: none; padding: 0.5rem; outline: none; }
+.nav-search button { background: transparent; border: none; cursor: pointer; }
+.theme-toggle button { background: transparent; border: none; font-size: 1.2rem; cursor: pointer; }
+
+/* Site Footer */
+.site-footer {
+    background: var(--dark-overlay);
+    color: var(--paper);
+    padding: 4rem 2rem 2rem;
+    margin-top: auto;
+}
+.footer-grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem;
+}
+.footer-section h4 {
+    font-family: \'DM Sans\', sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    color: var(--accent);
+}
+.footer-section p, .footer-section a {
+    color: var(--ink-light);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+.footer-section ul { list-style: none; }
+.footer-section li { margin-bottom: 0.75rem; }
+.footer-section a:hover { color: var(--paper); }
+.footer-bottom {
+    max-width: 1400px;
+    margin: 3rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-family: \'DM Sans\', sans-serif;
+    font-size: 0.8rem;
+    color: var(--ink-faded);
+}
