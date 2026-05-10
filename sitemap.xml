@@ -1,0 +1,46 @@
+<?php
+require_once __DIR__ . '/../backend/config/database.php';
+
+header('Content-Type: application/xml');
+
+$baseUrl = 'http://localhost/codes/daily-broadsheet';
+
+echo '<?xml version="1.0" encoding="UTF-8"?>';
+echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+
+try {
+    $pdo = Database::getInstance();
+    
+    // Homepage
+    echo '<url>';
+    echo '<loc>' . $baseUrl . '/index.php</loc>';
+    echo '<changefreq>hourly</changefreq>';
+    echo '<priority>1.0</priority>';
+    echo '</url>';
+    
+    // Articles
+    $articles = $pdo->query("SELECT id, slug, published_at FROM articles WHERE status = 'published' ORDER BY published_at DESC LIMIT 100");
+    while ($article = $articles->fetch()) {
+        echo '<url>';
+        echo '<loc>' . $baseUrl . '/index.php?page=article&id=' . $article['id'] . '</loc>';
+        echo '<lastmod>' . date('c', strtotime($article['published_at'])) . '</lastmod>';
+        echo '<changefreq>weekly</changefreq>';
+        echo '<priority>0.8</priority>';
+        echo '</url>';
+    }
+    
+    // Categories
+    $categories = $pdo->query("SELECT slug FROM categories");
+    while ($cat = $categories->fetch()) {
+        echo '<url>';
+        echo '<loc>' . $baseUrl . '/index.php?page=category&slug=' . $cat['slug'] . '</loc>';
+        echo '<changefreq>daily</changefreq>';
+        echo '<priority>0.7</priority>';
+        echo '</url>';
+    }
+    
+} catch (Exception $e) {
+    // Just show homepage on error
+}
+
+echo '</urlset>';

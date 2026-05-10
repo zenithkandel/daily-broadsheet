@@ -83,6 +83,14 @@ $today = date('F j, Y');
             </section>
             <?php endif; ?>
             
+            <!-- AdSense Leaderboard Placeholder -->
+            <div class="ad-container">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="728x90" data-ad-format="auto" data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            
             <div class="content-grid">
                 <aside class="sidebar-left">
                     <h3 class="sidebar-title">Trending</h3>

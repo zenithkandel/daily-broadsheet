@@ -62,6 +62,37 @@ $readingTime = ceil(strlen($article['body']) / 1000);
     <meta property="og:description" content="<?= htmlspecialchars($article['excerpt']) ?>">
     <meta property="og:image" content="<?= $article['featured_image'] ?? '' ?>">
     <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": <?= json_encode($article['title']) ?>,
+        "description": <?= json_encode($article['excerpt']) ?>,
+        "image": <?= json_encode($article['featured_image']) ?>,
+        "datePublished": <?= json_encode($article['published_at']) ?>,
+        "dateModified": <?= json_encode($article['updated_at'] ?? $article['published_at']) ?>,
+        "author": {
+            "@type": "Person",
+            "name": <?= json_encode($article['author_name']) ?>
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "The Daily Broadsheet",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "/codes/daily-broadsheet/frontend/assets/images/logo.png"
+            }
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "<?= $_SERVER['REQUEST_URI'] ?>"
+        }
+    }
+    </script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/codes/daily-broadsheet/frontend/assets/css/main.css">
     <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
