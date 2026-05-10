@@ -108,7 +108,7 @@ function getBreakingNews(string $lang = 'en'): array {
     try {
         $pdo = db();
         $stmt = $pdo->prepare("
-            SELECT ac.title, a.id 
+            SELECT a.id, ac.title 
             FROM articles a 
             JOIN article_content ac ON a.id = ac.article_id 
             WHERE a.status = 'published' AND a.breaking = 1 AND ac.lang = ?
