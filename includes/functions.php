@@ -44,7 +44,7 @@ function redirect(string $url): void {
 }
 
 function old(string $key): string {
-    return $_POST[$key'] ?? '';
+    return $_POST[$key] ?? '';
 }
 
 function h(string $str): string {
