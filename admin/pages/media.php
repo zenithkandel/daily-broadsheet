@@ -34,7 +34,7 @@ try {
                 try {
                     $stmt = $pdo->prepare("INSERT INTO article_media (article_id, type, filename) VALUES (NULL, ?, ?)");
                     $stmt->execute([$type, $dbPath]);
-                    $message = 'File uploaded successfully! DB: ' . $type . ' - ' . $dbPath;
+                    $message = 'File uploaded successfully!';
                 } catch (Exception $e) {
                     $message = 'DB Error: ' . $e->getMessage();
                 }
@@ -83,17 +83,15 @@ $typeFilter = $_GET['type'] ?? 'all';
 </div>
 <?php endif; ?>
 
-<div class="upload-zone" style="border: 2px dashed var(--rule); padding: 2rem; text-align: center; margin-bottom: 2rem; background: var(--paper-dark);">
-    <form method="POST" enctype="multipart/form-data" style="display: inline;">
-        <input type="file" name="file" required style="display: inline;">
+<div class="upload-zone">
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
         <button type="submit" class="btn btn-primary">Upload</button>
     </form>
-    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--ink-faded);">
-        Allowed: JPG, PNG, GIF, WebP, MP4, WebM, MP3, WAV, PDF, DOC
-    </p>
+    <p class="upload-hint">Allowed: JPG, PNG, GIF, WebP, MP4, WebM, MP3, WAV, PDF, DOC</p>
 </div>
 
-<div class="filter-tabs" style="margin-bottom: 1.5rem;">
+<div class="filter-tabs">
     <a href="index.php?page=media" class="filter-tab <?= $typeFilter === 'all' ? 'active' : '' ?>">All</a>
     <a href="index.php?page=media&type=image" class="filter-tab <?= $typeFilter === 'image' ? 'active' : '' ?>">Images</a>
     <a href="index.php?page=media&type=video" class="filter-tab <?= $typeFilter === 'video' ? 'active' : '' ?>">Videos</a>
@@ -101,30 +99,30 @@ $typeFilter = $_GET['type'] ?? 'all';
     <a href="index.php?page=media&type=document" class="filter-tab <?= $typeFilter === 'document' ? 'active' : '' ?>">Documents</a>
 </div>
 
-<div class="media-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem;">
+<div class="media-grid">
     <?php foreach ($media as $item): ?>
-    <div class="media-item" style="border: 1px solid var(--rule); padding: 0.5rem; background: #fff;">
+    <div class="media-item">
         <?php if ($item['type'] === 'image'): ?>
-        <img src="/codes/daily-broadsheet/uploads/<?= $item['filename'] ?>" style="width: 100%; height: 120px; object-fit: cover;">
+        <img src="/codes/daily-broadsheet/uploads/<?= $item['filename'] ?>" alt="">
         <?php elseif ($item['type'] === 'video'): ?>
-        <div style="width: 100%; height: 120px; background: var(--dark-overlay); display: flex; align-items: center; justify-content: center; color: #fff;"><i class="fa-duotone fa-video"></i></div>
+        <div class="media-placeholder media-video"><i class="fa-duotone fa-video"></i></div>
         <?php elseif ($item['type'] === 'audio'): ?>
-        <div style="width: 100%; height: 120px; background: var(--paper-dark); display: flex; align-items: center; justify-content: center; color: var(--ink-light);"><i class="fa-duotone fa-music"></i></div>
+        <div class="media-placeholder media-audio"><i class="fa-duotone fa-music"></i></div>
         <?php else: ?>
-        <div style="width: 100%; height: 120px; background: var(--paper-dark); display: flex; align-items: center; justify-content: center; color: var(--ink-light);"><i class="fa-duotone fa-file-lines"></i></div>
+        <div class="media-placeholder media-doc"><i class="fa-duotone fa-file-lines"></i></div>
         <?php endif; ?>
-        <div style="margin-top: 0.5rem; font-size: 0.75rem; word-break: break-all;">
-            <?= htmlspecialchars(basename($item['filename'])) ?>
-        </div>
-        <div style="display: flex; gap: 0.25rem; margin-top: 0.25rem;">
-            <button onclick="copyUrl('/codes/daily-broadsheet/uploads/<?= $item['filename'] ?>')" class="btn-action" style="font-size: 0.7rem; padding: 0.25rem 0.5rem; cursor: pointer;">Copy URL</button>
-            <a href="index.php?page=media&delete=<?= $item['id'] ?>" class="btn-action btn-delete" style="font-size: 0.7rem; padding: 0.25rem 0.5rem;" onclick="return confirm('Delete this file?')">Delete</a>
+        <span class="filename"><?= htmlspecialchars(basename($item['filename'])) ?></span>
+        <div class="media-actions">
+            <button onclick="copyUrl('/codes/daily-broadsheet/uploads/<?= $item['filename'] ?>')" class="btn btn-small btn-secondary">Copy</button>
+            <a href="index.php?page=media&delete=<?= $item['id'] ?>" class="btn btn-small btn-danger" onclick="return confirm('Delete this file?')">Delete</a>
         </div>
     </div>
     <?php endforeach; ?>
     
     <?php if (empty($media)): ?>
-    <p style="grid-column: 1 / -1; text-align: center; color: var(--ink-faded); padding: 2rem;">No media files uploaded yet.</p>
+    <div class="empty-state">
+        <p>No media files uploaded yet.</p>
+    </div>
     <?php endif; ?>
 </div>
 
@@ -137,55 +135,3 @@ function copyUrl(url) {
     });
 }
 </script>
-
-<style>
-.filter-tabs {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 1rem;
-}
-.filter-tab {
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    color: var(--ink-light);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    border-radius: 4px;
-}
-.filter-tab:hover, .filter-tab.active {
-    background: var(--accent);
-    color: #fff;
-}
-.alert {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 4px;
-}
-.alert-success {
-    background: #efe;
-    border: 1px solid #cfc;
-    color: #363;
-}
-.alert-error {
-    background: #fee;
-    border: 1px solid #fcc;
-    color: #633;
-}
-.btn-action {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.8rem;
-    font-family: 'DM Sans', sans-serif;
-    border: 1px solid var(--rule);
-    background: #fff;
-    color: var(--ink);
-    text-decoration: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-.btn-delete {
-    border-color: var(--danger);
-    color: var(--danger);
-}
-</style>
