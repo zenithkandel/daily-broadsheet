@@ -31,9 +31,13 @@ try {
             
             if (copy($file['tmp_name'], $targetPath)) {
                 $dbPath = 'media_library/' . $subdir . '/' . $filename;
-                $stmt = $pdo->prepare("INSERT INTO article_media (article_id, type, filename) VALUES (0, ?, ?)");
-                $stmt->execute([$type, $dbPath]);
-                $message = 'File uploaded successfully!';
+                try {
+                    $stmt = $pdo->prepare("INSERT INTO article_media (article_id, type, filename) VALUES (0, ?, ?)");
+                    $stmt->execute([$type, $dbPath]);
+                    $message = 'File uploaded successfully! DB: ' . $type . ' - ' . $dbPath;
+                } catch (Exception $e) {
+                    $message = 'DB Error: ' . $e->getMessage();
+                }
             } else {
                 $message = 'Failed to save file.';
             }
