@@ -4,17 +4,22 @@ require_once __DIR__ . '/../backend/config/database.php';
 try {
     $pdo = Database::getInstance();
     
-    // First delete the existing foreign key
+    // Drop the foreign key
     $pdo->exec("ALTER TABLE article_media DROP FOREIGN KEY article_media_ibfk_1");
     
-    // Add new foreign key that allows 0
+    // Change article_id to allow NULL
+    $pdo->exec("ALTER TABLE article_media MODIFY COLUMN article_id INT NULL");
+    
+    // Re-add foreign key with NULL allowed
     $pdo->exec("ALTER TABLE article_media ADD CONSTRAINT article_media_ibfk_1 FOREIGN KEY (article_id) REFERENCES articles(id) ON DELETE CASCADE");
     
-    echo "Foreign key updated to allow article_id = 0";
+    // Insert a test record with NULL
+    $stmt = $pdo->prepare("INSERT INTO article_media (article_id, type, filename) VALUES (NULL, 'image', 'media_library/images/test.jpg')");
+    $stmt->execute();
     
-    // Also set article_id = 0 to be valid by inserting a dummy record or allowing NULL
-    // Actually let's change existing records where article_id doesn't exist
-    $pdo->exec("DELETE FROM article_media WHERE article_id NOT IN (SELECT id FROM articles) AND article_id != 0");
+    echo "Success! Inserted with NULL article_id. ID: " . $pdo->lastInsertId();
+    
+    // Now update the media.php to use NULL instead of 0
     
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
