@@ -44,6 +44,7 @@ try {
     <title><?= htmlspecialchars($catName) ?> - The Daily Broadsheet</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
 </head>
 <body class="home-page">
     <?php include '../components/masthead.php'; ?>
