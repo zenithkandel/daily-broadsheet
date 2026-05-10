@@ -58,6 +58,7 @@ $userRole = $_SESSION['role'] ?? 'admin';
     <title>Admin - The Daily Broadsheet</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/admin.css">
+    <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
 </head>
 <body class="admin-body">
     <aside class="sidebar">
@@ -68,28 +69,28 @@ $userRole = $_SESSION['role'] ?? 'admin';
         
         <nav class="sidebar-nav">
             <a href="index.php?page=dashboard" class="nav-item <?= $page === 'dashboard' ? 'active' : '' ?>">
-                <span class="icon">&#9632;</span> Dashboard
+                <i class="fa-duotone fa-grid-2"></i> Dashboard
             </a>
             <a href="index.php?page=articles" class="nav-item <?= $page === 'articles' || $page === 'article-edit' ? 'active' : '' ?>">
-                <span class="icon">&#9776;</span> Articles
+                <i class="fa-duotone fa-newspaper"></i> Articles
             </a>
             <a href="index.php?page=categories" class="nav-item <?= $page === 'categories' ? 'active' : '' ?>">
-                <span class="icon">&#963;</span> Categories
+                <i class="fa-duotone fa-folders"></i> Categories
             </a>
             <a href="index.php?page=media" class="nav-item <?= $page === 'media' ? 'active' : '' ?>">
-                <span class="icon">&#9741;</span> Media
+                <i class="fa-duotone fa-images"></i> Media
             </a>
             <a href="index.php?page=comments" class="nav-item <?= $page === 'comments' ? 'active' : '' ?>">
-                <span class="icon">&#9827;</span> Comments
+                <i class="fa-duotone fa-comments"></i> Comments
                 <?php if ($stats['comments_pending'] > 0): ?>
                     <span class="badge"><?= $stats['comments_pending'] ?></span>
                 <?php endif; ?>
             </a>
             <a href="index.php?page=users" class="nav-item <?= $page === 'users' ? 'active' : '' ?>">
-                <span class="icon">&#9829;</span> Users
+                <i class="fa-duotone fa-users"></i> Users
             </a>
             <a href="index.php?page=settings" class="nav-item <?= $page === 'settings' ? 'active' : '' ?>">
-                <span class="icon">&#9881;</span> Settings
+                <i class="fa-duotone fa-gear"></i> Settings
             </a>
         </nav>
         
@@ -106,31 +107,31 @@ $userRole = $_SESSION['role'] ?? 'admin';
         <?php
         switch ($page) {
             case 'dashboard':
-                include 'articles.php';
+                include 'pages/dashboard.php';
                 break;
             case 'articles':
-                include 'articles.php';
+                include 'pages/articles.php';
                 break;
             case 'article-edit':
                 include 'article-edit.php';
                 break;
             case 'categories':
-                include 'categories.php';
+                include 'pages/categories.php';
                 break;
             case 'media':
-                include 'media.php';
+                include 'pages/media.php';
                 break;
             case 'comments':
-                include 'comments.php';
+                include 'pages/comments.php';
                 break;
             case 'users':
-                include 'users.php';
+                include 'pages/users.php';
                 break;
             case 'settings':
-                include 'settings.php';
+                include 'pages/settings.php';
                 break;
             default:
-                include 'articles.php';
+                include 'pages/dashboard.php';
         }
         ?>
     </main>

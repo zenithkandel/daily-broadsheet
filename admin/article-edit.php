@@ -122,6 +122,7 @@ $pageTitle = $articleId === 'new' ? 'New Article' : 'Edit Article';
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;700&family=Lora:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/admin.css">
+    <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
     <style>
         .editor-container {
             display: grid;
