@@ -8,12 +8,8 @@ $uploadDir = __DIR__ . '/../../uploads/media_library/';
 try {
     $pdo = db();
     
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_FILES['file']['name'])) {
         $file = $_FILES['file'];
-        
-        // Debug: Check file details
-        error_log("File upload: " . print_r($file, true));
-        
         $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'webm', 'mp3', 'wav', 'pdf', 'doc', 'docx'];
         
@@ -23,34 +19,27 @@ try {
             elseif (in_array($ext, ['mp4', 'webm'])) $type = 'video';
             elseif (in_array($ext, ['mp3', 'wav'])) $type = 'audio';
             
-            $filename = uniqid() . '_' . basename($file['name']);
+            $filename = time() . '_' . basename($file['name']);
             $subdir = $type === 'image' ? 'images' : ($type === 'video' ? 'videos' : ($type === 'audio' ? 'audio' : 'documents'));
             $targetDir = $uploadDir . $subdir . '/';
             
             if (!is_dir($targetDir)) {
-                if (!mkdir($targetDir, 0777, true)) {
-                    $message = 'Failed to create directory: ' . $targetDir;
-                    error_log("Failed to create dir: " . $targetDir);
-                }
+                mkdir($targetDir, 0777, true);
             }
             
             $targetPath = $targetDir . $filename;
-            error_log("Target path: " . $targetPath);
             
-            if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+            if (copy($file['tmp_name'], $targetPath)) {
                 $dbPath = 'media_library/' . $subdir . '/' . $filename;
                 $stmt = $pdo->prepare("INSERT INTO article_media (article_id, type, filename) VALUES (0, ?, ?)");
                 $stmt->execute([$type, $dbPath]);
                 $message = 'File uploaded successfully!';
             } else {
-                $message = 'Failed to move uploaded file. tmp: ' . $file['tmp_name'] . ', target: ' . $targetPath;
-                error_log("Move failed: " . $file['tmp_name'] . " -> " . $targetPath);
+                $message = 'Failed to save file.';
             }
         } else {
-            $message = 'Invalid file type: ' . $ext;
+            $message = 'Invalid file type.';
         }
-    } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $message = 'No file selected or upload error: ' . ($_FILES['file']['error'] ?? 'no file');
     }
     
     if (isset($_GET['delete'])) {
