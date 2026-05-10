@@ -11,6 +11,49 @@
     --dark-overlay: #2A2520;
 }
 
+/* AdSense Container */
+.ad-container {
+    margin: 2rem 0;
+    padding: 1rem;
+    background: var(--paper-dark);
+    text-align: center;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ad-container ins {
+    background: transparent !important;
+}
+
+.ad-containerRectangle {
+    margin: 2rem 0;
+    min-height: 250px;
+}
+
+/* Mobile sticky ad */
+.sticky-ad-bottom {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #fff;
+    padding: 0.5rem;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 640px) {
+    .sticky-ad-bottom {
+        display: block;
+    }
+    .main-container {
+        padding-bottom: 60px;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
