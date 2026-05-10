@@ -3,6 +3,7 @@ $currentLang = $_SESSION['lang'] ?? 'en';
 $currentPage = $_GET['page'] ?? 'home';
 $currentId = $_GET['id'] ?? '';
 $currentSlug = $_GET['slug'] ?? '';
+$q = $_GET['q'] ?? '';
 
 // Build current URL to preserve when switching language
 $preserveParams = [];
@@ -15,12 +16,21 @@ if ($currentId) {
 if ($currentSlug) {
     $preserveParams['slug'] = $currentSlug;
 }
+if ($q) {
+    $preserveParams['q'] = $q;
+}
 
 // Build URLs for language switch
 $enParams = array_merge($preserveParams, ['lang' => 'en']);
 $neParams = array_merge($preserveParams, ['lang' => 'ne']);
 $enUrl = '?' . http_build_query($enParams);
 $neUrl = '?' . http_build_query($neParams);
+
+// If no params, just use ?lang=
+if (empty($preserveParams)) {
+    $enUrl = '?lang=en';
+    $neUrl = '?lang=ne';
+}
 ?>
 <div class="masthead">
     <div class="masthead-left">
@@ -29,10 +39,8 @@ $neUrl = '?' . http_build_query($neParams);
     </div>
     <div class="masthead-center">
         <a href="index.php" class="masthead-logo">The Daily Broadsheet</a>
-        <span class="tagline">A nod to classic print newspapers reimagined for the web</span>
     </div>
     <div class="masthead-right">
-        <span class="weather"><i class="fa-duotone fa-sun"></i> 22°C Kathmandu</span>
         <span class="date"><?php echo date('F j, Y'); ?></span>
         <div class="lang-switch">
             <a href="<?= $enUrl ?>" class="<?= $currentLang === 'en' ? 'active' : '' ?>">EN</a>

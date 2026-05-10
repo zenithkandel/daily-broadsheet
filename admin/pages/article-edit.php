@@ -216,8 +216,18 @@ $pageTitle = $articleId === 'new' ? 'New Article' : 'Edit Article';
             </div>
             
             <div class="form-row">
-                <label>Featured Image URL</label>
-                <input type="url" name="featured_image" value="<?= htmlspecialchars($article['featured_image'] ?? '') ?>" placeholder="https://...">
+                <label>Featured Image</label>
+                <div class="image-input-group">
+                    <input type="url" name="featured_image" id="featured_image" value="<?= htmlspecialchars($article['featured_image'] ?? '') ?>" placeholder="Enter URL or select from media library">
+                    <button type="button" class="btn-media-select" onclick="openMediaPicker('featured_image')">
+                        <i class="fa-duotone fa-images"></i> Browse
+                    </button>
+                </div>
+                <?php if (!empty($article['featured_image'])): ?>
+                <div class="image-preview">
+                    <img src="<?= $article['featured_image'] ?>" alt="Preview" style="max-width: 200px; margin-top: 0.5rem; border: 1px solid var(--rule);">
+                </div>
+                <?php endif; ?>
             </div>
         </div>
         

@@ -43,6 +43,28 @@ try {
     $relatedStmt->execute([$lang, $article['category_id'], $articleId]);
     $related = $relatedStmt->fetchAll();
     
+    // Get approved comments
+    $commentsStmt = $pdo->prepare("
+        SELECT * FROM comments 
+        WHERE article_id = ? AND status = 'approved' 
+        ORDER BY created_at DESC
+    ");
+    $commentsStmt->execute([$articleId]);
+    $comments = $commentsStmt->fetchAll();
+    
+    // Handle new comment submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['new_comment'])) {
+        $name = htmlspecialchars($_POST['name'] ?? 'Anonymous');
+        $email = htmlspecialchars($_POST['email'] ?? '');
+        $content = htmlspecialchars($_POST['comment'] ?? '');
+        
+        if (!empty($content)) {
+            $insertStmt = $pdo->prepare("INSERT INTO comments (article_id, user_name, email, content, status) VALUES (?, ?, ?, ?, 'pending')");
+            $insertStmt->execute([$articleId, $name, $email, $content]);
+            $commentMessage = "Thank you! Your comment has been submitted for moderation.";
+        }
+    }
+    
 } catch (Exception $e) {
     echo "<h1>Error loading article</h1>";
     echo "<p>Please try again later.</p>";
@@ -241,16 +263,58 @@ $readingTime = ceil(strlen($article['body']) / 1000);
                 </div>
                 <?php endif; ?>
                 
-                <div class="share-buttons">
+<div class="share-buttons">
                     <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($_SERVER['REQUEST_URI']) ?>" target="_blank">Facebook</a>
                     <a href="https://twitter.com/intent/tweet?url=<?= urlencode($_SERVER['REQUEST_URI']) ?>" target="_blank">Twitter</a>
                     <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?= urlencode($_SERVER['REQUEST_URI']) ?>" target="_blank">LinkedIn</a>
                     <a href="mailto:?subject=<?= urlencode($article['title']) ?>&body=<?= urlencode($_SERVER['REQUEST_URI']) ?>">Email</a>
                 </div>
                 
-                <div class="article-body">
-                    <?= $article['body'] ?>
-                </div>
+                <!-- Comments Section -->
+                <section class="comments-section">
+                    <h3 class="comments-title"><i class="fa-duotone fa-comments"></i> Comments (<?= count($comments) ?>)</h3>
+                    
+                    <?php if (isset($commentMessage)): ?>
+                    <div class="comment-message"><?= htmlspecialchars($commentMessage) ?></div>
+                    <?php endif; ?>
+                    
+                    <!-- Comment Form -->
+                    <div class="comment-form">
+                        <h4>Leave a Comment</h4>
+                        <form method="POST">
+                            <input type="hidden" name="new_comment" value="1">
+                            <div class="form-row">
+                                <input type="text" name="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-row">
+                                <input type="email" name="email" placeholder="Your Email (optional)">
+                            </div>
+                            <div class="form-row">
+                                <textarea name="comment" placeholder="Write your comment..." rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Comment</button>
+                        </form>
+                    </div>
+                    
+                    <!-- Comments List -->
+                    <div class="comments-list">
+                        <?php foreach ($comments as $comment): ?>
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <span class="comment-author"><?= htmlspecialchars($comment['user_name'] ?? 'Anonymous') ?></span>
+                                <span class="comment-date"><?= timeAgo($comment['created_at']) ?></span>
+                            </div>
+                            <div class="comment-body">
+                                <?= htmlspecialchars($comment['content']) ?>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                        
+                        <?php if (empty($comments)): ?>
+                        <p class="no-comments">No comments yet. Be the first to comment!</p>
+                        <?php endif; ?>
+                    </div>
+                </section>
                 
                 <?php if (!empty($related)): ?>
                 <section class="related-articles">
