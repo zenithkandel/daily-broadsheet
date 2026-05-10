@@ -116,7 +116,10 @@ $typeFilter = $_GET['type'] ?? 'all';
         <div style="margin-top: 0.5rem; font-size: 0.75rem; word-break: break-all;">
             <?= htmlspecialchars(basename($item['filename'])) ?>
         </div>
-        <a href="index.php?page=media&delete=<?= $item['id'] ?>" class="btn-action btn-delete" style="font-size: 0.7rem; padding: 0.25rem 0.5rem; margin-top: 0.25rem; display: inline-block;" onclick="return confirm('Delete this file?')">Delete</a>
+        <div style="display: flex; gap: 0.25rem; margin-top: 0.25rem;">
+            <button onclick="copyUrl('/codes/daily-broadsheet/uploads/<?= $item['filename'] ?>')" class="btn-action" style="font-size: 0.7rem; padding: 0.25rem 0.5rem; cursor: pointer;">Copy URL</button>
+            <a href="index.php?page=media&delete=<?= $item['id'] ?>" class="btn-action btn-delete" style="font-size: 0.7rem; padding: 0.25rem 0.5rem;" onclick="return confirm('Delete this file?')">Delete</a>
+        </div>
     </div>
     <?php endforeach; ?>
     
@@ -124,6 +127,16 @@ $typeFilter = $_GET['type'] ?? 'all';
     <p style="grid-column: 1 / -1; text-align: center; color: var(--ink-faded); padding: 2rem;">No media files uploaded yet.</p>
     <?php endif; ?>
 </div>
+
+<script>
+function copyUrl(url) {
+    navigator.clipboard.writeText(url).then(function() {
+        alert('URL copied to clipboard!');
+    }, function() {
+        prompt('Copy this URL:', url);
+    });
+}
+</script>
 
 <style>
 .filter-tabs {
