@@ -71,9 +71,9 @@ $lang = $_SESSION['lang'] ?? 'en';
     </style>
 </head>
 <body class="home-page">
-    <?php include '../components/masthead.php'; ?>
+    <?php include __DIR__ . '/../components/masthead.php'; ?>
     <div class="main-container">
-        <?php include '../components/header.php'; ?>
+        <?php include __DIR__ . '/../components/header.php'; ?>
         
         <main class="content-wrapper">
             <div class="error-page">
@@ -90,7 +90,7 @@ $lang = $_SESSION['lang'] ?? 'en';
             </div>
         </main>
         
-        <?php include '../components/footer.php'; ?>
+        <?php include __DIR__ . '/../components/footer.php'; ?>
     </div>
 </body>
 </html>

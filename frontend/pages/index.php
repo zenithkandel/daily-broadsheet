@@ -61,10 +61,10 @@ $today = date('F j, Y');
     <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
 </head>
 <body class="home-page">
-    <?php include '../components/masthead.php'; ?>
+    <?php include __DIR__ . '/../components/masthead.php'; ?>
     
     <div class="main-container">
-        <?php include '../components/header.php'; ?>
+        <?php include __DIR__ . '/../components/header.php'; ?>
         
         <main class="content-wrapper">
             <?php if ($featured): ?>
@@ -128,7 +128,7 @@ $today = date('F j, Y');
             </div>
         </main>
         
-        <?php include '../components/footer.php'; ?>
+        <?php include __DIR__ . '/../components/footer.php'; ?>
     </div>
     
     <script src="../assets/js/main.js"></script>
