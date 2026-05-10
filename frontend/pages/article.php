@@ -64,6 +64,7 @@ $readingTime = ceil(strlen($article['body']) / 1000);
     <meta property="og:type" content="article">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="https://zenithkandel.com.np/fontawesome/zenith-icons.js"></script>
     <style>
         .article-page {
             max-width: 800px;
