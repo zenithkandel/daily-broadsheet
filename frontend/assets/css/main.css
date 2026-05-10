@@ -27,6 +27,19 @@
     background: transparent !important;
 }
 
+.ad-placeholder {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+    border: 1px dashed var(--rule);
+    padding: 1.5rem 2rem;
+    color: var(--ink-faded);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    width: 100%;
+    max-width: 728px;
+}
+
 .ad-containerRectangle {
     margin: 2rem 0;
     min-height: 250px;
@@ -1141,6 +1154,34 @@ a:hover {
 .comment-form textarea:focus {
     outline: none;
     border-color: var(--accent);
+}
+
+.comment-form .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.75rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.comment-form .btn-primary:hover {
+    background: #c94a2e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(229, 90, 60, 0.3);
+}
+
+.comment-form .btn-primary:active {
+    transform: translateY(0);
 }
 
 .comment-message {
