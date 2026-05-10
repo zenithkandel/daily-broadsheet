@@ -1,7 +1,9 @@
 <?php
+session_start();
 $pageTitle = 'Login - The Daily Broadsheet Admin';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once '../includes/functions.php';
     require_once '../backend/config/database.php';
     require_once '../backend/models/User.php';
     
