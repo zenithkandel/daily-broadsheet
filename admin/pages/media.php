@@ -61,7 +61,7 @@ try {
         exit;
     }
     
-    $media = $pdo->query("SELECT * FROM article_media WHERE article_id = 0 ORDER BY id DESC")->fetchAll();
+    $media = $pdo->query("SELECT * FROM article_media WHERE article_id IS NULL OR article_id = 0 ORDER BY id DESC")->fetchAll();
     $typeFilter = $_GET['type'] ?? 'all';
     if ($typeFilter !== 'all') {
         $media = array_filter($media, fn($m) => $m['type'] === $typeFilter);
