@@ -71,7 +71,7 @@ $today = date('F j, Y');
             <?php if ($featured): ?>
             <section class="hero-section">
                 <div class="hero-image">
-                    <img src="<?= $featured['featured_image'] ?? '/codes/daily-broadsheet/frontend/assets/images/placeholder.jpg' ?>" alt="">
+                    <img src="<?= normalizeImagePath($featured['featured_image'] ?? '') ?>" alt="">
                 </div>
                 <div class="hero-content">
                     <span class="hero-category"><?= getCategoryName($featured['category_id'], $categories) ?></span>
@@ -114,7 +114,7 @@ $today = date('F j, Y');
                         <?php foreach ($recent as $article): ?>
                         <article class="article-card">
                             <div class="card-image">
-                                <img src="<?= $article['featured_image'] ?? '/codes/daily-broadsheet/frontend/assets/images/placeholder.jpg' ?>" alt="">
+                                <img src="<?= normalizeImagePath($article['featured_image'] ?? '') ?>" alt="">
                             </div>
                             <div class="card-content">
                                 <span class="card-category"><?= getCategoryName($article['category_id'], $categories) ?></span>

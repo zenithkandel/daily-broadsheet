@@ -1,9 +1,13 @@
-<?php $baseUrl = '/codes/daily-broadsheet'; ?>
+<?php 
+$baseUrl = '/codes/daily-broadsheet';
+$breakingNews = getBreakingNews($_SESSION['lang'] ?? 'en');
+$breakingText = !empty($breakingNews) ? implode(' • ', array_values($breakingNews)) : 'No breaking news';
+?>
 <header class="site-header">
     <div class="header-top">
         <div class="breaking-ticker">
             <span class="ticker-label"><i class="fa-solid fa-bolt"></i> BREAKING</span>
-            <span class="ticker-content">Global markets rally as tech stocks surge to new highs...</span>
+            <span class="ticker-content"><?= htmlspecialchars($breakingText) ?></span>
         </div>
     </div>
     <nav class="main-nav">

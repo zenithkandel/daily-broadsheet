@@ -76,3 +76,47 @@ function generateSlug(string $text): string {
     $text = preg_replace('/[\s-]+/', '-', $text);
     return trim($text, '-');
 }
+
+function normalizeImagePath(?string $path): string {
+    $baseUrl = '/codes/daily-broadsheet';
+    $placeholder = $baseUrl . '/frontend/assets/images/placeholder.jpg';
+    
+    if (empty($path)) {
+        return $placeholder;
+    }
+    
+    if (preg_match('/^https?:\/\//', $path)) {
+        return $path;
+    }
+    
+    if (str_starts_with($path, '/')) {
+        return $path;
+    }
+    
+    if (str_starts_with($path, 'uploads/')) {
+        return $baseUrl . '/' . $path;
+    }
+    
+    if (str_starts_with($path, 'media_library/')) {
+        return $baseUrl . '/uploads/' . $path;
+    }
+    
+    return $baseUrl . '/' . $path;
+}
+
+function getBreakingNews(string $lang = 'en'): array {
+    try {
+        $pdo = db();
+        $stmt = $pdo->prepare("
+            SELECT ac.title, a.id 
+            FROM articles a 
+            JOIN article_content ac ON a.id = ac.article_id 
+            WHERE a.status = 'published' AND a.breaking = 1 AND ac.lang = ?
+            ORDER BY a.published_at DESC LIMIT 5
+        ");
+        $stmt->execute([$lang]);
+        return $stmt->fetchAll(PDO::FETCH_COLUMN | PDO::FETCH_UNIQUE);
+    } catch (Exception $e) {
+        return [];
+    }
+}
