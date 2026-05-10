@@ -12,6 +12,12 @@ try {
             $stmt = $pdo->prepare("INSERT INTO site_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?");
             $stmt->execute([$key, $value, $value]);
         }
+        
+        if (!isset($_POST['show_ads'])) {
+            $stmt = $pdo->prepare("INSERT INTO site_settings (setting_key, setting_value) VALUES ('show_ads', '0') ON DUPLICATE KEY UPDATE setting_value = '0'");
+            $stmt->execute();
+        }
+        
         $message = 'Settings saved successfully!';
     }
     
