@@ -1,5 +1,5 @@
 <?php
-require_once '../backend/config/database.php';
+require_once __DIR__ . '/../backend/config/database.php';
 
 $hash = '$2y$12$MAVvhivnNKhPyoY3fBaSJufPNc/HjiEFIHT1pUZk/64QtxIONWwmW';
 
