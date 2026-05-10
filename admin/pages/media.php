@@ -32,7 +32,7 @@ try {
             if (copy($file['tmp_name'], $targetPath)) {
                 $dbPath = 'media_library/' . $subdir . '/' . $filename;
                 try {
-                    $stmt = $pdo->prepare("INSERT INTO article_media (article_id, type, filename) VALUES (0, ?, ?)");
+                    $stmt = $pdo->prepare("INSERT INTO article_media (article_id, type, filename) VALUES (NULL, ?, ?)");
                     $stmt->execute([$type, $dbPath]);
                     $message = 'File uploaded successfully! DB: ' . $type . ' - ' . $dbPath;
                 } catch (Exception $e) {
