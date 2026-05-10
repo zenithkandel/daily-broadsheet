@@ -3,48 +3,65 @@ require_once '../includes/functions.php';
 requireLogin();
 
 $message = '';
-$uploadDir = '../../uploads/media_library/';
+$uploadDir = __DIR__ . '/../../uploads/media_library/';
 
 try {
     $pdo = db();
     
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file']) && $_FILES['file']['error'] === 0) {
         $file = $_FILES['file'];
-        if ($file['error'] === 0) {
-            $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'webm', 'mp3', 'wav', 'pdf', 'doc', 'docx'];
+        
+        // Debug: Check file details
+        error_log("File upload: " . print_r($file, true));
+        
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $allowedExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'webm', 'mp3', 'wav', 'pdf', 'doc', 'docx'];
+        
+        if (in_array($ext, $allowedExts)) {
+            $type = 'document';
+            if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) $type = 'image';
+            elseif (in_array($ext, ['mp4', 'webm'])) $type = 'video';
+            elseif (in_array($ext, ['mp3', 'wav'])) $type = 'audio';
             
-            if (in_array($ext, $allowedExts)) {
-                $type = 'document';
-                if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) $type = 'image';
-                elseif (in_array($ext, ['mp4', 'webm'])) $type = 'video';
-                elseif (in_array($ext, ['mp3', 'wav'])) $type = 'audio';
-                
-                $filename = uniqid() . '.' . $ext;
-                $subdir = $type === 'image' ? 'images' : ($type === 'video' ? 'videos' : ($type === 'audio' ? 'audio' : 'documents'));
-                $targetDir = $uploadDir . $subdir . '/';
-                
-                if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
-                
-                if (move_uploaded_file($file['tmp_name'], $targetDir . $filename)) {
-                    $stmt = $pdo->prepare("INSERT INTO article_media (article_id, type, filename) VALUES (0, ?, ?)");
-                    $stmt->execute([$type, 'media_library/' . $subdir . '/' . $filename]);
-                    $message = 'File uploaded successfully!';
-                } else {
-                    $message = 'Failed to move uploaded file.';
+            $filename = uniqid() . '_' . basename($file['name']);
+            $subdir = $type === 'image' ? 'images' : ($type === 'video' ? 'videos' : ($type === 'audio' ? 'audio' : 'documents'));
+            $targetDir = $uploadDir . $subdir . '/';
+            
+            if (!is_dir($targetDir)) {
+                if (!mkdir($targetDir, 0777, true)) {
+                    $message = 'Failed to create directory: ' . $targetDir;
+                    error_log("Failed to create dir: " . $targetDir);
                 }
-            } else {
-                $message = 'Invalid file type.';
             }
+            
+            $targetPath = $targetDir . $filename;
+            error_log("Target path: " . $targetPath);
+            
+            if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                $dbPath = 'media_library/' . $subdir . '/' . $filename;
+                $stmt = $pdo->prepare("INSERT INTO article_media (article_id, type, filename) VALUES (0, ?, ?)");
+                $stmt->execute([$type, $dbPath]);
+                $message = 'File uploaded successfully!';
+            } else {
+                $message = 'Failed to move uploaded file. tmp: ' . $file['tmp_name'] . ', target: ' . $targetPath;
+                error_log("Move failed: " . $file['tmp_name'] . " -> " . $targetPath);
+            }
+        } else {
+            $message = 'Invalid file type: ' . $ext;
         }
+    } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $message = 'No file selected or upload error: ' . ($_FILES['file']['error'] ?? 'no file');
     }
     
     if (isset($_GET['delete'])) {
         $stmt = $pdo->prepare("SELECT filename FROM article_media WHERE id = ?");
         $stmt->execute([$_GET['delete']]);
         $file = $stmt->fetch();
-        if ($file && file_exists('../../uploads/' . $file['filename'])) {
-            unlink('../../uploads/' . $file['filename']);
+        if ($file) {
+            $fullPath = __DIR__ . '/../../uploads/' . $file['filename'];
+            if (file_exists($fullPath)) {
+                unlink($fullPath);
+            }
         }
         $pdo->prepare("DELETE FROM article_media WHERE id = ?")->execute([$_GET['delete']]);
         header('Location: index.php?page=media');
