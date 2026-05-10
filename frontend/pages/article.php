@@ -323,7 +323,7 @@ $readingTime = ceil(strlen($article['body']) / 1000);
                         <?php foreach ($related as $item): ?>
                         <div class="related-item">
                             <a href="index.php?page=article&id=<?= $item['id'] ?>">
-                                <img src="<?= $item['featured_image'] ?? '/codes/daily-broadsheet/frontend/assets/images/placeholder.jpg' ?>" alt="">
+                                <img src="<?= normalizeImagePath($item['featured_image'] ?? '') ?>" alt="">
                                 <h4><?= htmlspecialchars($item['title']) ?></h4>
                             </a>
                         </div>

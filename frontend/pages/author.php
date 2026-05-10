@@ -86,7 +86,7 @@ try {
                     <?php foreach ($articles as $article): ?>
                     <article class="article-card">
                         <div class="card-image">
-                            <img src="<?= $article['featured_image'] ?? '/codes/daily-broadsheet/frontend/assets/images/placeholder.jpg' ?>" alt="">
+                            <img src="<?= normalizeImagePath($article['featured_image'] ?? '') ?>" alt="">
                         </div>
                         <div class="card-content">
                             <h3><a href="index.php?page=article&id=<?= $article['id'] ?>"><?= htmlspecialchars($article['title']) ?></a></h3>
