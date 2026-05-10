@@ -113,7 +113,7 @@ $userRole = $_SESSION['role'] ?? 'admin';
                 include 'pages/articles.php';
                 break;
             case 'article-edit':
-                include 'article-edit.php';
+                include 'pages/article-edit.php';
                 break;
             case 'categories':
                 include 'pages/categories.php';
